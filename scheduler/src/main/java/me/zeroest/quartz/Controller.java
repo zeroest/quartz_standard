@@ -3,24 +3,27 @@ package me.zeroest.quartz;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.quartz.*;
-import org.springframework.boot.CommandLineRunner;
-import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-@Component
 @Slf4j
+@RestController
 @RequiredArgsConstructor
-public class SchedulerRunner implements CommandLineRunner {
-
+public class Controller {
     private final Scheduler scheduler;
     private final RemoteJobClassLoader remoteJobClassLoader;
 
-    @Override
-    public void run(String... args) throws Exception {
+    @GetMapping("/")
+    public String add() throws ClassNotFoundException, SchedulerException {
         log.info("Init Runner executed.");
         JobKey jobKey = JobKey.jobKey("jobkey1", "jobgroup1");
+        scheduler.deleteJob(jobKey);
+
         JobDetail jobDetail = buildJobDetail(jobKey);
         Trigger trigger = buildJobTrigger(jobKey);
         scheduler.scheduleJob(jobDetail, trigger);  // (1)
+
+        return "OK";
     }
 
     private JobDetail buildJobDetail(JobKey jobKey) throws ClassNotFoundException {
@@ -29,7 +32,7 @@ public class SchedulerRunner implements CommandLineRunner {
         jobDataMap.put("key2", 2);
 
         return JobBuilder.newJob(remoteJobClassLoader.loadClass("me.zeroest.quartz.RemoteSimpleJob", Job.class))
-        //return JobBuilder.newJob(SimpleJob.class)  // (2)
+                //return JobBuilder.newJob(SimpleJob.class)  // (2)
                 .withIdentity(jobKey)
                 .withDescription("Simple Quartz Job Detail")
                 .usingJobData(jobDataMap)

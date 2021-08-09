@@ -14,6 +14,7 @@ public class RemoteSimpleJob implements Job {
         log.info("OOO REMOTE JOB [{}] executed.", this.getClass().getSimpleName());
         JobDataMap mergedJobDataMap = context.getMergedJobDataMap();
         mergedJobDataMap.forEach((k, v) -> log.info("OOOOO {}: {}", k, v));
+        log.info("Added Message");
     }
 
 }
