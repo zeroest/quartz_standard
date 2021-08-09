@@ -1,1 +1,5 @@
-rootProject.name = 'quartz_scheduler'
+rootProject.name = 'quartz'
+
+include 'scheduler'
+include 'job'
+

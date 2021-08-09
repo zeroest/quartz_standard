@@ -1,4 +1,4 @@
-package me.zeroest.quartz_scheduler;
+package me.zeroest.quartz;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
