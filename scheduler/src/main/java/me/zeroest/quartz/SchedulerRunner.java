@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 public class SchedulerRunner implements CommandLineRunner {
 
     private final Scheduler scheduler;
+    private final RemoteJobClassLoader remoteJobClassLoader;
 
     @Override
     public void run(String... args) throws Exception {
@@ -27,7 +28,8 @@ public class SchedulerRunner implements CommandLineRunner {
         jobDataMap.put("key1", "value1");
         jobDataMap.put("key2", 2);
 
-        return JobBuilder.newJob(SimpleJob.class)  // (2)
+        return JobBuilder.newJob(remoteJobClassLoader.loadClass("me.zeroest.quartz.RemoteSimpleJob", Job.class))
+        //return JobBuilder.newJob(SimpleJob.class)  // (2)
                 .withIdentity(jobKey)
                 .withDescription("Simple Quartz Job Detail")
                 .usingJobData(jobDataMap)

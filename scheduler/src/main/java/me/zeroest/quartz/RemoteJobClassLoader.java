@@ -12,7 +12,7 @@ import java.net.URLClassLoader;
 @Slf4j
 public class RemoteJobClassLoader {
 
-    private static final String JOB_REPO = "/tmp/homo-efficio/quartz/remote-job-repo/quartz-job.jar";
+    public static final String JOB_REPO = "/tmp/quartz/job-0.0.1-plain.jar";
 
     @SuppressWarnings("unchecked")
     public <T> Class<? extends T> loadClass(String name, Class<T> clazz) throws ClassNotFoundException {

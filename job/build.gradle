@@ -1,0 +1,20 @@
+
+bootJar{
+    enabled = false;
+}
+jar {
+    enabled = true;
+}
+
+dependencies {
+}
+
+task deployJar(type: Copy) {
+    // dependsOn('jar')
+    from "$buildDir/libs/${project.name}-${version}-plain.jar"
+    into "/tmp/quartz/"
+}
+
+build {
+    finalizedBy deployJar
+}
